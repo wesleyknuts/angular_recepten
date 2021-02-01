@@ -1,0 +1,24 @@
+<form [formGroup]="receptForm" (ngSubmit)="onSubmit()">
+    Naam: <input type="text" name="naam" formControlName="naam">
+    <span *ngIf="!receptForm.get('naam').valid && receptForm.get('naam').touched">Gelieve een waarde in te vullen</span>
+    <br> Bereidingstijd: <input type="text" name="bereidingstijd" formControlName="bereidingstijd">
+    <br> Ingrediënten:
+    <!-- <input type="text" name="ingredienten" formControlName="ingredienten"> -->
+    <div formArrayName="ingredienten">
+        <button type="buttom" (click)="voegtoe()">+</button>
+        <div *ngFor="let ingredControl of ingredienten().controls;let i=index">
+            <div [formGroupName]="i">
+                Naam:
+                <input type="text" formControlName="naam">
+                <br> Hoev:
+                <input type="text" formControlName="hoev">
+            </div>
+        </div>
+    </div>
+
+    <br><input type="submit" value="verzenden">
+</form>
+<br>
+<div *ngFor='let r of recepten'>
+    {{ r.naam }} - {{r.bereidingstijd}} - {{ r.ingredienten | json}}
+</div>
